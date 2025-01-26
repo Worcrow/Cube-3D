@@ -1,4 +1,4 @@
-#include <mlx.h>
+#include "mlx/mlx.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,7 +31,7 @@ typedef struct s_data {
 } t_data;
 
 // Simple map (1 represents walls, 0 represents empty space)
-int worldMap[MAP_WIDTH][MAP_HEIGHT] = {
+/*int worldMap[MAP_WIDTH][MAP_HEIGHT] = {
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -56,7 +56,34 @@ int worldMap[MAP_WIDTH][MAP_HEIGHT] = {
   {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-}; 
+}; */
+
+int worldMap[MAP_WIDTH][MAP_HEIGHT] = {
+  {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,7,7,7,7,7,7,7,7},
+  {4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
+  {4,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
+  {4,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
+  {4,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
+  {4,0,4,0,0,0,0,5,5,5,5,5,5,5,5,5,7,7,0,7,7,7,7,7},
+  {4,0,5,0,0,0,0,5,0,5,0,5,0,5,0,5,7,0,0,0,7,7,7,1},
+  {4,0,6,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,0,0,0,8},
+  {4,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,1},
+  {4,0,8,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,0,0,0,8},
+  {4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,7,7,7,1},
+  {4,0,0,0,0,0,0,5,5,5,5,0,5,5,5,5,7,7,7,7,7,7,7,1},
+  {6,6,6,6,6,6,6,6,6,6,6,0,6,6,6,6,6,6,6,6,6,6,6,6},
+  {8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4},
+  {6,6,6,6,6,6,0,6,6,6,6,0,6,6,6,6,6,6,6,6,6,6,6,6},
+  {4,4,4,4,4,4,0,4,4,4,6,0,6,2,2,2,2,2,2,2,3,3,3,3},
+  {4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2},
+  {4,0,0,0,0,0,0,0,0,0,0,0,6,2,0,0,5,0,0,2,0,0,0,2},
+  {4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2},
+  {4,0,6,0,6,0,0,0,0,4,6,0,0,0,0,0,5,0,0,0,0,0,0,2},
+  {4,0,0,5,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2},
+  {4,0,6,0,6,0,0,0,0,4,6,0,6,2,0,0,5,0,0,2,0,0,0,2},
+  {4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2},
+  {4,4,4,4,4,4,4,4,4,4,1,1,1,2,2,2,2,2,2,3,3,3,3,3}
+};
 
 void my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -179,7 +206,7 @@ int render_frame(t_data *data)
 
 int key_press(int keycode, t_data *data)
 {
-    if (keycode == 53)  // ESC key
+    if (keycode == 65307)  // ESC key
     {
         mlx_destroy_window(data->mlx, data->win);
         exit(0);
@@ -188,21 +215,21 @@ int key_press(int keycode, t_data *data)
     double oldDirX;
     double oldPlaneX;
 
-    if (keycode == 13)  // W key
+    if (keycode == 119)  // W key
     {
         if (!worldMap[(int)(data->player.pos_x + data->player.dir_x * MOVE_SPEED)][(int)data->player.pos_y])
             data->player.pos_x += data->player.dir_x * MOVE_SPEED;
         if (!worldMap[(int)data->player.pos_x][(int)(data->player.pos_y + data->player.dir_y * MOVE_SPEED)])
             data->player.pos_y += data->player.dir_y * MOVE_SPEED;
     }
-    if (keycode == 1)  // S key
+    if (keycode == 115)  // S key
     {
         if (!worldMap[(int)(data->player.pos_x - data->player.dir_x * MOVE_SPEED)][(int)data->player.pos_y])
             data->player.pos_x -= data->player.dir_x * MOVE_SPEED;
         if (!worldMap[(int)data->player.pos_x][(int)(data->player.pos_y - data->player.dir_y * MOVE_SPEED)])
             data->player.pos_y -= data->player.dir_y * MOVE_SPEED;
     }
-    if (keycode == 0)  // A key - rotate left
+    if (keycode == 97)  // A key - rotate left
     {
         oldDirX = data->player.dir_x;
         data->player.dir_x = data->player.dir_x * cos(ROTATION_SPEED) - data->player.dir_y * sin(ROTATION_SPEED);
@@ -211,7 +238,7 @@ int key_press(int keycode, t_data *data)
         data->player.plane_x = data->player.plane_x * cos(ROTATION_SPEED) - data->player.plane_y * sin(ROTATION_SPEED);
         data->player.plane_y = oldPlaneX * sin(ROTATION_SPEED) + data->player.plane_y * cos(ROTATION_SPEED);
     }
-    if (keycode == 2)  // D key - rotate right
+    if (keycode == 100)  // D key - rotate right
     {
         oldDirX = data->player.dir_x;
         data->player.dir_x = data->player.dir_x * cos(-ROTATION_SPEED) - data->player.dir_y * sin(-ROTATION_SPEED);

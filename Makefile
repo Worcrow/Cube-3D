@@ -10,10 +10,11 @@ OBJ=$(SRC:.c=.o)
 all:$(NAME)
 #libmlx42.a -Iinclude -lglfw
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) -Lmlx -lmlx -framework OpenGL -framework AppKit -g -o $(NAME)
-
+	#$(CC) $(OBJ) -Lmlx -lmlx -framework OpenGL -framework AppKit -g -o $(NAME) for mac compilation
+	$(CC) $(OBJ) -L./mlx -l:libmlx.a -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -g -o $(NAME)	
 %.o: %.c cube.h
-	$(CC)  -Imlx -c -g $< -o $@
+	#$(CC)  -Imlx -c -g $< -o $@ for mac compilation
+	cc -Wall -Wextra -Werror -c $< -o $@
 
 # -Wall -Wextra -Werror
 clean:
