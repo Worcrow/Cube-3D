@@ -40,12 +40,13 @@ int main(void)
 
     // Initialize player position and direction
     data.player.pos_x = 2;
-    data.player.pos_y = 2;
+    data.player.pos_y = 20;
     data.player.dir_x = -1;
     data.player.dir_y = 0;
     data.player.plane_x = 0;
     data.player.plane_y = 0.66;
 
+    initialize_texture(&data);
     mlx_hook(data.win, 2, 1L<<0, key_press, &data);
     mlx_loop_hook(data.mlx, render_frame, &data);
     mlx_loop(data.mlx);

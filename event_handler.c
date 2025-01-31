@@ -57,5 +57,9 @@ int key_press(int keycode, t_data *data)
         data->player.plane_x = data->player.plane_x * cos(-ROTATION_SPEED) - data->player.plane_y * sin(-ROTATION_SPEED);
         data->player.plane_y = oldPlaneX * sin(-ROTATION_SPEED) + data->player.plane_y * cos(-ROTATION_SPEED);
     }
+    mlx_destroy_image(data->mlx, data->img);
+    data->img = mlx_new_image(data->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+    data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian);
+    render_frame(data);
     return (0);
 }

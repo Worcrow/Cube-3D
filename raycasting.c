@@ -79,13 +79,45 @@ int render_frame(t_data *data)
         if (draw_end >= WINDOW_HEIGHT)
             draw_end = WINDOW_HEIGHT - 1;
 
-        int color;
-        if (side == 1)
-            color = 0xFF0000;  // Red for vertical walls
+        // add texture
+        int textNUM = data->worldMap[map_x][map_y] - 1;
+        double wall_x;
+        //calculate the value of wall_x where exactly the wall is hit
+        if (side == 0)
+            wall_x = data->player.pos_y + wall_dist * ray_dir_y;
         else
-            color = 0xCC0000;  // Darker red for horizontal walls
+            wall_x = data->player.pos_x + wall_dist * ray_dir_x;
+        
+        wall_x -= floor(wall_x);
+        // x coordinate on the texture
+        int textX = (int)(wall_x * (double)TEXTURE_HEIGHT);
+        if (side == 0 && ray_dir_x > 0)
+            textX = TEXTURE_WIDTH - textX - 1;
+        if (side == 1 && ray_dir_y < 0)
+            textX = TEXTURE_WIDTH - textX - 1;
 
-        draw_vertical_line(data, x, draw_start, draw_end, color);
+        // y coordinate on the texture
+        // How much to increase the texture coordinate per screen pixel
+        double step = 1.0 * TEXTURE_HEIGHT / line_height;
+        double text_pos = (draw_start - WINDOW_HEIGHT / 2 + line_height / 2) * step;
+        for (int y = draw_start; y < draw_end; y++)
+        {
+            // Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
+            int textY = (int)text_pos & (TEXTURE_HEIGHT - 1);
+            text_pos += step;
+            unsigned int color = data->textures[textNUM][TEXTURE_HEIGHT * textY + textX];
+            if (side == 1)
+                color = (color >> 1) & 8355711;
+            my_mlx_pixel_put(data, x, y, color);
+        }
+
+        // int color;
+        // if (side == 1)
+        //     color = 0xFF0000;  // Red for vertical walls
+        // else
+        //     color = 0xCC0000;  // Darker red for horizontal walls
+
+        // draw_vertical_line(data, x, draw_start, draw_end, color);
         x++;
     }
     mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
