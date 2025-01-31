@@ -46,7 +46,7 @@ int main(void)
     data.player.plane_x = 0;
     data.player.plane_y = 0.66;
 
-    initialize_texture(&data);
+    load_texture(&data);
     mlx_hook(data.win, 2, 1L<<0, key_press, &data);
     mlx_loop_hook(data.mlx, render_frame, &data);
     mlx_loop(data.mlx);

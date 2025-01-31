@@ -105,7 +105,7 @@ int render_frame(t_data *data)
             // Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
             int textY = (int)text_pos & (TEXTURE_HEIGHT - 1);
             text_pos += step;
-            unsigned int color = data->textures[textNUM][TEXTURE_HEIGHT * textY + textX];
+            unsigned int color = get_texture_color(data->textures + textNUM, textY, textX);
             if (side == 1)
                 color = (color >> 1) & 8355711;
             my_mlx_pixel_put(data, x, y, color);

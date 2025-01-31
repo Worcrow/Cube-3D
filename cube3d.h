@@ -10,6 +10,8 @@
 
 # define WINDOW_WIDTH 1024
 # define WINDOW_HEIGHT 512
+# define TEXTURE_WIDTH 64
+# define TEXTURE_HEIGHT 64
 # define MAP_WIDTH 24
 # define MAP_HEIGHT 24
 # define MOVE_SPEED 0.1
@@ -24,6 +26,14 @@ typedef struct s_player {
     double plane_y;
 } t_player;
 
+typedef struct s_texture {
+    void *img;
+    char *addr;
+    int bits_per_pixel;
+    int line_length;
+    int endian;
+} t_texture;
+
 typedef struct s_data {
     void *mlx;
     void *win;
@@ -33,16 +43,17 @@ typedef struct s_data {
     int line_length;
     int endian;
     int **worldMap;
+    t_texture textures[8];
     t_player player;
 } t_data;
 
-int     render_frame(t_data *data);
-int     key_press(int keycode, t_data *data);
-void    my_mlx_pixel_put(t_data *data, int x, int y, int color);
-void    draw_vertical_line(t_data *data, int x, int draw_start, int draw_end, int color);
-void    create_worldMap(t_data *data);
-
-
+int             render_frame(t_data *data);
+int             key_press(int keycode, t_data *data);
+void            my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void            draw_vertical_line(t_data *data, int x, int draw_start, int draw_end, int color);
+void            create_worldMap(t_data *data);
+void            load_texture(t_data *data);
+unsigned int    get_texture_color(t_texture *tex, int y, int x);
 
 
 #endif

@@ -3,7 +3,8 @@
 
 NAME = out
 
-SRC= main.c helper_function.c raycasting.c event_handler.c
+#SRC= claude_text.c
+SRC= main.c helper_function.c raycasting.c event_handler.c texture.c
 OBJ=$(SRC:.c=.o)
 
 
