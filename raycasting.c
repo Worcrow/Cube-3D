@@ -1,11 +1,51 @@
 
 #include "cube3d.h"
 
+void floor_ceil_render(t_data *data)
+{
+    size_t y;
+    size_t x;
+    unsigned int floorColor;
+    unsigned int ceilColor;
+
+    y = 0;
+    while (y < WINDOW_HEIGHT)
+    {
+        floorColor = 0x1F1F1F;
+        ceilColor = 0xDC6400;
+        // float rayDirX0 = data->player.dir_x - data->player.plane_x;
+        // float rayDirY0 = data->player.dir_y - data->player.plane_y;
+        // float rayDirX1 = data->player.dir_x + data->player.plane_x;
+        // float rayDirY1 = data->player.dir_y + data->player.plane_y;
+        // current position compared to the center of the screen
+        // float p = y - WINDOW_HEIGHT / 2;
+        //vertical position of the camera
+        // float posZ = 0.5 * WINDOW_HEIGHT;
+        // Horizontal distance from the camera to the floor for the current row.
+       // 0.5 is the z position exactly in the middle between floor and ceiling.
+        // float rowDistance = posZ / p;
+        // float floorStepX = rowDistance * (rayDirX1 - rayDirX0) / WINDOW_WIDTH;
+        // float floorStepY = rowDistance * (rayDirY1 - rayDirY0) / WINDOW_WIDTH;
+        // real world coordinates of the leftmost column. This will be updated as we step to the right
+        // float floorX = data->player.pos_x + rowDistance * rayDirX0;
+        // float floorY = data->player.pos_y + rowDistance * rayDirY0;
+        x = 0;
+        while (x < WINDOW_WIDTH)
+        {
+            my_mlx_pixel_put(data, x, y, ceilColor);
+            my_mlx_pixel_put(data, x, WINDOW_HEIGHT - y - 1, floorColor);
+            x++;
+        }
+        y++;
+    }
+}
+
 int render_frame(t_data *data)
 {
     int x;
     
     x = 0;
+    floor_ceil_render(data);
     while (x < WINDOW_WIDTH)
     {
         double camera_x = 2 * x / (double)WINDOW_WIDTH - 1;
@@ -79,6 +119,14 @@ int render_frame(t_data *data)
         if (draw_end >= WINDOW_HEIGHT)
             draw_end = WINDOW_HEIGHT - 1;
 
+        // int color;
+        // if (side == 1)
+        //     color = 0xFF0000;  // Red for vertical walls
+        // else
+        //     color = 0xCC0000;  // Darker red for horizontal walls
+
+        // draw_vertical_line(data, x, draw_start, draw_end, color);
+
         // add texture
         int textNUM = data->worldMap[map_x][map_y] - 1;
         double wall_x;
@@ -111,13 +159,6 @@ int render_frame(t_data *data)
             my_mlx_pixel_put(data, x, y, color);
         }
 
-        // int color;
-        // if (side == 1)
-        //     color = 0xFF0000;  // Red for vertical walls
-        // else
-        //     color = 0xCC0000;  // Darker red for horizontal walls
-
-        // draw_vertical_line(data, x, draw_start, draw_end, color);
         x++;
     }
     mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
