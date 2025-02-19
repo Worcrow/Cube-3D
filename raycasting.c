@@ -1,4 +1,3 @@
-
 #include "cube3d.h"
 
 void floor_ceil_render(t_data *data)
@@ -12,23 +11,7 @@ void floor_ceil_render(t_data *data)
     while (y < WINDOW_HEIGHT)
     {
         floorColor = 0x1F1F1F;
-        ceilColor = 0xDC6400;
-        // float rayDirX0 = data->player.dir_x - data->player.plane_x;
-        // float rayDirY0 = data->player.dir_y - data->player.plane_y;
-        // float rayDirX1 = data->player.dir_x + data->player.plane_x;
-        // float rayDirY1 = data->player.dir_y + data->player.plane_y;
-        // current position compared to the center of the screen
-        // float p = y - WINDOW_HEIGHT / 2;
-        //vertical position of the camera
-        // float posZ = 0.5 * WINDOW_HEIGHT;
-        // Horizontal distance from the camera to the floor for the current row.
-       // 0.5 is the z position exactly in the middle between floor and ceiling.
-        // float rowDistance = posZ / p;
-        // float floorStepX = rowDistance * (rayDirX1 - rayDirX0) / WINDOW_WIDTH;
-        // float floorStepY = rowDistance * (rayDirY1 - rayDirY0) / WINDOW_WIDTH;
-        // real world coordinates of the leftmost column. This will be updated as we step to the right
-        // float floorX = data->player.pos_x + rowDistance * rayDirX0;
-        // float floorY = data->player.pos_y + rowDistance * rayDirY0;
+        ceilColor = 0xDC6400; 
         x = 0;
         while (x < WINDOW_WIDTH)
         {
@@ -127,16 +110,31 @@ int render_frame(t_data *data)
 
         // draw_vertical_line(data, x, draw_start, draw_end, color);
 
-        // add texture
-        int textNUM = data->worldMap[map_x][map_y] - 1;
+        // Determine which texture to use based on wall orientation and side
+        int textNUM;
+        if (side == 0) // x-axis wall (east/west facing)
+        {
+            if (ray_dir_x > 0) // west facing wall
+                textNUM = 0;    // eagle texture
+            else               // east facing wall
+                textNUM = 1;    // redbrick texture
+        }
+        else          // y-axis wall (north/south facing)
+        {
+            if (ray_dir_y > 0) // north facing wall
+                textNUM = 2;    // purplestone texture
+            else               // south facing wall
+                textNUM = 3;    // greystone texture
+        }
+
+        // Calculate wall X coordinate
         double wall_x;
-        //calculate the value of wall_x where exactly the wall is hit
         if (side == 0)
             wall_x = data->player.pos_y + wall_dist * ray_dir_y;
         else
             wall_x = data->player.pos_x + wall_dist * ray_dir_x;
-        
         wall_x -= floor(wall_x);
+        
         // x coordinate on the texture
         int textX = (int)(wall_x * (double)TEXTURE_HEIGHT);
         if (side == 0 && ray_dir_x > 0)
