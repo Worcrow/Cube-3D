@@ -32,6 +32,9 @@ int main(void)
 {
     t_data data;
 
+    // Zero-initialize the entire structure
+    memset(&data, 0, sizeof(t_data));
+
     data.mlx = mlx_init();
     data.win = mlx_new_window(data.mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "Raycaster");
     data.img = mlx_new_image(data.mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -46,8 +49,15 @@ int main(void)
     data.player.plane_x = 0;
     data.player.plane_y = 0.66;
 
+    // Load textures
     load_texture(&data);
+
     mlx_hook(data.win, 2, 1L<<0, key_press, &data);
+    // Add mouse motion hook for rotation
+    mlx_hook(data.win, 6, 1L<<6, mouse_move, &data);
+    // Add hooks for mouse entering and leaving the window
+    mlx_hook(data.win, 7, 1L<<4, mouse_enter, &data);
+    mlx_hook(data.win, 8, 1L<<5, mouse_leave, &data);
     mlx_loop_hook(data.mlx, render_frame, &data);
     mlx_loop(data.mlx);
 

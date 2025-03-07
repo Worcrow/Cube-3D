@@ -10,8 +10,8 @@ void floor_ceil_render(t_data *data)
     y = 0;
     while (y < WINDOW_HEIGHT)
     {
-        floorColor = 0x1F1F1F;
-        ceilColor = 0xDC6400; 
+        floorColor = 0x1F1F1F;  // Dark gray for floor
+        ceilColor = 0xDC6400;   // Orange for ceiling
         x = 0;
         while (x < WINDOW_WIDTH)
         {
@@ -26,6 +26,7 @@ void floor_ceil_render(t_data *data)
 int render_frame(t_data *data)
 {
     int x;
+    double z_buffer[WINDOW_WIDTH];
     
     x = 0;
     floor_ceil_render(data);
@@ -102,14 +103,6 @@ int render_frame(t_data *data)
         if (draw_end >= WINDOW_HEIGHT)
             draw_end = WINDOW_HEIGHT - 1;
 
-        // int color;
-        // if (side == 1)
-        //     color = 0xFF0000;  // Red for vertical walls
-        // else
-        //     color = 0xCC0000;  // Darker red for horizontal walls
-
-        // draw_vertical_line(data, x, draw_start, draw_end, color);
-
         // Determine which texture to use based on wall orientation and side
         int textNUM;
         if (side == 0) // x-axis wall (east/west facing)
@@ -157,8 +150,13 @@ int render_frame(t_data *data)
             my_mlx_pixel_put(data, x, y, color);
         }
 
+        // Store wall distance in z_buffer
+        z_buffer[x] = wall_dist;
+
         x++;
     }
+    
+    draw_minimap(data);
     mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
     return (0);
 }

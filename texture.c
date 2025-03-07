@@ -11,14 +11,14 @@ unsigned int get_texture_color(t_texture *tex, int y, int x)
 void load_texture(t_data *data)
 {
     char *files_path[] = {
-        "./textures/eagle.xpm",
-        "./textures/redbrick.xpm",
-        "./textures/purplestone.xpm",
-        "./textures/greystone.xpm",
+        "./textures/ou1.xpm",
+        "./textures/ou2.xpm",
+        "./textures/ou3.xpm",
+        "./textures/ou4.xpm",
         "./textures/bluestone.xpm",
         "./textures/mossy.xpm",
-        "./textures/wood.xpm",
-        "./textures/colorstone.xpm"
+        "./textures/barrel.xpm",
+        "./textures/greenlight.xpm"
     };
     size_t i;
     int width;

@@ -2,5 +2,6 @@
     "files.associations": {
         "cube3d.h": "c"
     },
-    "editor.fontSize": 14
+    "editor.fontSize": 14,
+    "liveServer.settings.port": 5501
 }

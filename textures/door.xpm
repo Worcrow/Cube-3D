@@ -1,0 +1,8 @@
+/* XPM */
+static char *door[] = {
+"64 64 3 1",
+"  c #4A3C2B", // Dark brown
+". c #6B573E", // Light brown
+"+ c #382D20", // Very dark brown for edges
+// ... rest of the 64x64 pattern
+}; 
